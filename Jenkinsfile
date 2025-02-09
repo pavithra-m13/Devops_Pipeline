@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git 'https://github.com/pavithra-m13/project_sample.git'
+                git 'https://github.com/pavithra-m13/Devops_Pipeline.git/'
             }
         }
         stage('Setup Infrastructure') {
