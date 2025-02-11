@@ -17,9 +17,9 @@ pipeline {
         stage('Setup Infrastructure') {
             steps {
                 bat '''
-                    echo Checking Terraform directory: %WORKSPACE%\terraform
-                    if not exist "%WORKSPACE%\terraform" (
-                        echo Terraform directory not found: %WORKSPACE%\terraform
+                    echo Checking Terraform directory: %WORKSPACE%\\terraform
+                    if not exist "%WORKSPACE%\\terraform" (
+                        echo Terraform directory not found: %WORKSPACE%\\terraform
                         exit /b 1
                     )
                     
@@ -33,9 +33,9 @@ pipeline {
         stage('Build Application') {
             steps {
                 bat '''
-                    echo Checking Website directory: %WORKSPACE%\website
-                    if not exist "%WORKSPACE%/website" (
-                        echo Website directory not found: %WORKSPACE%/website
+                    echo Checking Website directory: %WORKSPACE%\\website
+                    if not exist "%WORKSPACE%\\website" (
+                        echo Website directory not found: %WORKSPACE%\\website
                         exit /b 1
                     )
                 '''
