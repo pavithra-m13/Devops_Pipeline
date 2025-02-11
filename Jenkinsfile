@@ -17,11 +17,11 @@ pipeline {
         stage('Setup Infrastructure') {
             steps {
                 bat '''
-                    // echo Checking Terraform directory: %WORKSPACE%\terraform
-                    // if not exist "%WORKSPACE%\\terraform\\" (
-                    //     echo Terraform directory not found: %WORKSPACE%\\terraform\\
-                    //     exit /b 1
-                    // )
+                     echo Checking Terraform directory: %WORKSPACE%\terraform
+                     if not exist "%WORKSPACE%\\terraform\\" (
+                         echo Terraform directory not found: %WORKSPACE%\\terraform\\
+                         exit /b 1
+                     )
                     
                     echo Running Terraform via WSL...
                     wsl terraform -chdir=terraform init
