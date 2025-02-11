@@ -10,7 +10,7 @@ pipeline {
         stage('Checkout Code') {
             steps {
                 git 'https://github.com/pavithra-m13/Devops_Pipeline.git'
-               
+                sh 'C:\\Windows\\System32\\wsl.exe bash -c "echo Listing workspace contents after checkout; ls -la"'
             }
         }
         
