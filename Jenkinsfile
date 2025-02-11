@@ -9,13 +9,16 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
+                // Checkout code from GitHub
                 git 'https://github.com/pavithra-m13/Devops_Pipeline.git'
-                sh 'C:\\Windows\\System32\\wsl.exe bash -c "echo Listing workspace contents after checkout; ls -la"'
+                // Run listing of workspace contents using bash (in WSL)
+                sh 'bash -c "echo Listing workspace contents after checkout; ls -la"'
             }
         }
         
         stage('Setup Infrastructure') {
             steps {
+                // Initialize and apply Terraform in the appropriate directory
                 sh '''
                     echo "Resolved WORKSPACE path: $(pwd)"
                     echo "Checking Terraform directory: $(pwd)/terraform"
@@ -35,6 +38,7 @@ pipeline {
         
         stage('Build Application') {
             steps {
+                // Check for the website directory
                 sh '''
                     echo "Checking Website directory: $(pwd)/website"
                     if [ ! -d "website" ]; then
@@ -47,6 +51,7 @@ pipeline {
         
         stage('Deploy Application') {
             steps {
+                // Deploy website files to Apache server
                 sh '''
                     echo "Deploying to Apache server..."
                     sudo cp -r website/* /var/www/html/
