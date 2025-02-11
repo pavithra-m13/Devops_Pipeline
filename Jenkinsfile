@@ -3,59 +3,51 @@ pipeline {
     
     environment {
         TF_VERSION = "1.5.0"
-        TERRAFORM_BIN = "/usr/local/bin/terraform"
-        PATH = "$PATH:/usr/local/bin"
+        TERRAFORM_BIN = "/usr/bin/terraform"
     }
     
     stages {
         stage('Checkout Code') {
             steps {
-                git 'https://github.com/pavithra-m13/Devops_Pipeline.git'
-                
+                git 'https://github.com/your-repo/your-project.git'
+                bat 'dir'
             }
         }
         
         stage('Setup Infrastructure') {
             steps {
-                sh '''
-                    echo "Resolved WORKSPACE path: $(pwd)"
-                    echo "Checking Terraform directory: $(pwd)/terraform"
+                bat '''
+                    echo Checking Terraform directory: %WORKSPACE%\terraform
+                    if not exist "%WORKSPACE%\terraform" (
+                        echo Terraform directory not found: %WORKSPACE%\terraform
+                        exit /b 1
+                    )
                     
-                    if [ ! -d "terraform" ]; then
-                        echo "Terraform directory not found: $(pwd)/terraform"
-                        exit 1
-                    fi
-                    
-                    echo "Ensuring Terraform is accessible..."
-                    export PATH=$PATH:/usr/local/bin
-                    which terraform
-                    
-                    echo "Initializing Terraform..."
-                    cd terraform
-                    terraform init
-                    terraform apply -auto-approve
+                    echo Running Terraform via WSL...
+                    wsl terraform -chdir=terraform init
+                    wsl terraform -chdir=terraform apply -auto-approve
                 '''
             }
         }
         
         stage('Build Application') {
             steps {
-                sh '''
-                    echo "Checking Website directory: $(pwd)/website"
-                    if [ ! -d "website" ]; then
-                        echo "Website directory not found: $(pwd)/website"
-                        exit 1
-                    fi
+                bat '''
+                    echo Checking Website directory: %WORKSPACE%\website
+                    if not exist "%WORKSPACE%\website" (
+                        echo Website directory not found: %WORKSPACE%\website
+                        exit /b 1
+                    )
                 '''
             }
         }
         
         stage('Deploy Application') {
             steps {
-                sh '''
-                    echo "Deploying to Apache server..."
-                    sudo cp -r website/* /var/www/html/
-                    sudo systemctl restart apache2
+                bat '''
+                    echo Deploying to Apache server in WSL...
+                    wsl sudo cp -r website/* /var/www/html/
+                    wsl sudo systemctl restart apache2
                 '''
             }
         }
