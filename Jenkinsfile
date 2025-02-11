@@ -34,8 +34,8 @@ pipeline {
             steps {
                 bat '''
                     echo Checking Website directory: %WORKSPACE%\website
-                    if not exist "%WORKSPACE%\website" (
-                        echo Website directory not found: %WORKSPACE%\website
+                    if not exist "%WORKSPACE%/website" (
+                        echo Website directory not found: %WORKSPACE%/website
                         exit /b 1
                     )
                 '''
