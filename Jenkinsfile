@@ -4,20 +4,22 @@ pipeline {
     environment {
         TF_VERSION = "1.5.0"
         TERRAFORM_BIN = "/usr/local/bin/terraform"
+        PATH = "$PATH:/usr/local/bin"
     }
     
     stages {
         stage('Checkout Code') {
             steps {
-                // Checkout code from GitHub
-                git 'https://github.com/pavithra-m13/Devops_Pipeline.git'
-                // Run listing of workspace contents using bash (in WSL)
+                git 'https://github.com/your-repo/your-project.git'
+                sh '''
+                    echo "Listing workspace contents after checkout:"
+                    ls -la
+                '''
             }
         }
         
         stage('Setup Infrastructure') {
             steps {
-                // Initialize and apply Terraform in the appropriate directory
                 sh '''
                     echo "Resolved WORKSPACE path: $(pwd)"
                     echo "Checking Terraform directory: $(pwd)/terraform"
@@ -27,17 +29,20 @@ pipeline {
                         exit 1
                     fi
                     
+                    echo "Ensuring Terraform is accessible..."
+                    export PATH=$PATH:/usr/local/bin
+                    which terraform
+                    
                     echo "Initializing Terraform..."
                     cd terraform
-                    $TERRAFORM_BIN init
-                    $TERRAFORM_BIN apply -auto-approve
+                    terraform init
+                    terraform apply -auto-approve
                 '''
             }
         }
         
         stage('Build Application') {
             steps {
-                // Check for the website directory
                 sh '''
                     echo "Checking Website directory: $(pwd)/website"
                     if [ ! -d "website" ]; then
@@ -50,7 +55,6 @@ pipeline {
         
         stage('Deploy Application') {
             steps {
-                // Deploy website files to Apache server
                 sh '''
                     echo "Deploying to Apache server..."
                     sudo cp -r website/* /var/www/html/
