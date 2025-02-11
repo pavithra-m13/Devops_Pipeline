@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git 'https://github.com/your-repo/your-project.git'
+                git 'https://github.com/pavithra-m13/Devops_Pipeline.git'
                 sh '''
                     echo "Listing workspace contents after checkout:"
                     ls -la
