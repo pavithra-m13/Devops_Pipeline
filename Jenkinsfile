@@ -12,7 +12,6 @@ pipeline {
                 // Checkout code from GitHub
                 git 'https://github.com/pavithra-m13/Devops_Pipeline.git'
                 // Run listing of workspace contents using bash (in WSL)
-                sh 'bash -c "echo Listing workspace contents after checkout; ls -la"'
             }
         }
         
