@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         TF_VERSION = "1.10.5"
-        TERRAFORM_BIN = "C://Program Files//terraform_1.10.5_windows_amd64//terraform.exe"
+        TERRAFORM_BIN = "C://Program Files//terraform//terraform_1.10.5_windows_amd64//terraform.exe"
 
     }
    
